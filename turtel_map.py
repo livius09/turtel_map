@@ -18,6 +18,9 @@ class matrix():
     def write(self,x: int,y: int,w:bool)->None:
         adr= x+(y* self.wi)
         self.arr[adr]=w
+        
+    def rese(self):
+        self.arr=[0]*self.size
 
 
 img=matrix()
