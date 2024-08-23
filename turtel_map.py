@@ -9,13 +9,15 @@ class matrix():
         self.he=he
         self.wi=wi
         self.size=self.he*self.wi
-        self.arr=[0]*self.size
+        self.arr=[False,]*self.size
     
     def read(self,x: int,y: int)-> bool:
+        x,y=int(x),int(y)
         adr= x+(y * self.wi)
         return (self.arr[adr])
     
     def write(self,x: int,y: int,w:bool)->None:
+        x,y=int(x),int(y)
         adr= x+(y* self.wi)
         self.arr[adr]=w
         
@@ -48,10 +50,51 @@ def setrandom():
         for c in range(img.wi):
             img.write(i,c,choice([True,False]))
 
+def life() -> None:
+    neighbors = [
+        (-1, -1), (-1, 0), (-1, 1),
+        (0, -1),         (0, 1),
+        (1, -1), (1, 0), (1, 1)
+    ]
+    
+    new_img = matrix(img.he, img.wi)
+    
+    for i in range(img.he):
+        for c in range(img.wi):
+            u = 0   
+            for dx, dy in neighbors:
+                ni, nc = i + dx, c + dy
+                if 0 <= ni < img.he and 0 <= nc < img.wi:
+                    if img.read(ni, nc):
+                        u += 1
+            
+            if img.read(i, c):  
+                if u < 2 or u > 3:
+                    new_img.write(i, c, False) 
+                else:
+                    new_img.write(i, c, True)
+            else:
+                if u == 3:
+                    new_img.write(i, c, True) 
+                else:
+                    new_img.write(i, c, False)
+    
+    img.arr = new_img.arr
+
+
+
+    
+while input("end ?: ") != "yes":
+    img.write(input("x: "),input("y: "),True)
+
+
+
+
 while True:
-    setrandom()
+    
     tracer(0)
     reset()
+    life()
     updt()
     update()
 
