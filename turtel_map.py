@@ -32,10 +32,11 @@ def square(x: int,y: int) ->None :
     penup()
     goto(x*10,y*10)
     pendown()
+    setheading(0)
     begin_fill()
     for i in range(4):
         forward(10)
-        right(90)
+        right(-90)
     end_fill()
     penup()
 
@@ -81,22 +82,35 @@ def life() -> None:
     
     img.arr = new_img.arr
 
-
+def grid()->None:
+    penup()
+    setheading(0)
+    for c in range(img.he+1):
+        goto(0,c*10)
+        pendown()
+        forward(img.wi*10)
+        penup()
+    setheading(-90)
+    for i in range(img.wi+1):
+        goto(i*10,img.he*10)
+        pendown()
+        forward(img.he*10)
+        penup()
 
     
 while input("end ?: ") != "yes":
     img.write(input("x: "),input("y: "),True)
 
 
-
-
 while True:
     
     tracer(0)
     reset()
+    grid()
     life()
     updt()
     update()
+    sleep(0.5)
 
 
 
