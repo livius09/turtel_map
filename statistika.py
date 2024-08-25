@@ -1,7 +1,7 @@
 #turtel_map
 from turtle import*
 from time import sleep
-from random import choice
+import random
 
 
 class matrix():
@@ -45,4 +45,55 @@ def updt():
         for c in range(img.wi):
             if img.read(i,c) == True:
                 square(i,c)
-   
+
+def diagram(ar:list)->None:
+    if len(ar) > img.wi:
+        OverflowError
+    penup()
+    for i in range(len(ar)):
+        for c in range(ar[i]):
+            img.write(i,c,True)
+
+def markers()->None:
+    
+    def mark():
+        pendown()
+        forward(10)
+        right(90)
+        forward(5)
+        right(180)
+        forward(10)
+        right(180)
+        forward(5)
+        left(90)
+        penup()
+
+
+    goto(0,0)
+    setheading(0)
+    for i in range (img.wi):
+        mark()
+
+    goto(0,0)
+    setheading(90)
+    for i in range (img.he):
+        mark()
+
+def normal_distrubution()->list:
+    n=[]
+    for i in range(600):
+        n.append(random.randint(0,20)+random.randint(0,20))
+    o=[0,]*img.wi
+    for c in range(img.wi): 
+        o[c]= n.count(c)
+
+    return(o)
+
+
+tracer(0)
+markers()
+diagram(normal_distrubution())
+updt()
+update()
+done()
+
