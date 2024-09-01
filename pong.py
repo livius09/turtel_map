@@ -79,12 +79,10 @@ class sprite():
         self.v_x=0
         self.v_y=0
 
-
     def v_mov(self,):
         if self.v_x != 0 or self.v_y != 0 :
             self.x += self.v_x
             self.y += self.v_y
-
 
     def rotate(self, dat: list, rot: int) -> list:
         grid = [dat[i*self.wi:(i+1)*self.wi] for i in range(self.he)]
