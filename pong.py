@@ -114,8 +114,24 @@ def regrid():
     reset()
     img.rese()
     grid()
-            
 
+def bounce():
+    if ball.x>=38:
+        ball.v_x*= -1
+    if ball.y<=1 or ball.y>=38:
+        ball.v_y*= -1   
+
+    if pa1.x + 1 == ball.x:
+        if pa1.y <= ball.y <= pa1.y + 7:  
+            ball.v_x *= -1 
+            if ball.y < pa1.y + 2: 
+                ball.v_y = -1  
+            elif ball.y > pa1.y + 5:  
+                ball.v_y = 1  
+            else:  
+                ball.v_y = 0  
+
+    
 bdat=[1,1,
      1,1]
 
@@ -129,18 +145,19 @@ pdat=[1,0,0,0,0,0,0,
 
 
 ball = sprite(bdat,20,20,0,2,2)
-pa1= sprite(pdat,1,18,0,7,7)
+pa1= sprite(pdat,1,20,0,7,7)
 
 
+ball.v_x = -1
 tracer(0)
 while True:
     regrid()
+    bounce()
     pa1.draw()
     ball.draw()
     updt()
-    ball.x += 1
     update()
-    sleep(1)
+    sleep(0.5)
 
  
 done()
