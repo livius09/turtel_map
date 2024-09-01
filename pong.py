@@ -62,7 +62,7 @@ def updt():
                 square(i,c)
 
 class sprite():
-    def __init__(self,dat:list,x=0,y=0,visi=True,rot=0,he=3,wi=3):
+    def __init__(self,dat:list,x=0,y=0,rot=0,he=3,wi=3,visi=True):
         if len(dat) != he*wi:
             raise ValueError("Data lengt does not match sprite dimensions")
         
@@ -103,21 +103,31 @@ class sprite():
         self.last_rot=self.rot
             
 
-dit=[1,1,1,
-     0,1,0,
-     0,1,0]
+bdat=[1,1,
+     1,1]
+
+pdat=[1,0,0,0,0,0,0,
+      1,0,0,0,0,0,0,
+      1,0,0,0,0,0,0,
+      1,0,0,0,0,0,0,
+      1,0,0,0,0,0,0,
+      1,0,0,0,0,0,0,
+      1,0,0,0,0,0,0]
 
 def regrid():
     reset()
     img.rese()
     grid()
 
-blo = sprite(dit)
+ball = sprite(bdat,20,20,0,2,2)
+pa1= sprite(pdat,1,18,0,7,7)
+
 
 tracer(0)
 
 regrid()
-blo.draw()
+ball.draw()
+pa1.draw()
 updt()
 
  

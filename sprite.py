@@ -63,16 +63,17 @@ def updt():
 
 class sprite():
     def __init__(self,dat:list,x=0,y=0,visi=True,rot=0,he=3,wi=3):
+        
         if len(dat) != he*wi:
             raise ValueError("Data lengt does not match sprite dimensions")
         
         self.x = x
         self.y = y
-        self.rot = rot
-        self.dat = dat#[::-1]
-        self.visi=visi
-        self.wi = wi
-        self.he = he
+        self.rot = rot #rotation
+        self.dat = dat
+        self.visi=visi #if visible
+        self.wi = wi #whidt
+        self.he = he #heigt
         self.last_pos_x=-1
         self.last_pos_y=-1
         self.last_rot=-1
@@ -95,11 +96,11 @@ class sprite():
 
         self.dat=self.rotate(self.dat,self.rot)
 
-        if self.visi == True:
+        if self.visi == True: #only draw if visible
             for i in range(self.he):
                 for c in range(self.wi):
                     img.write(self.x + c, self.y + i, self.dat[i*self.he + c])
-        self.last_pos_x,self.last_pos_y=self.x,self.y
+        self.last_pos_x,self.last_pos_y=self.x,self.y 
         self.last_rot=self.rot
             
 
