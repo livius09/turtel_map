@@ -76,7 +76,16 @@ class sprite():
         self.last_pos_x=-1
         self.last_pos_y=-1
         self.last_rot=-1
-    
+        self.v_x=0
+        self.v_y=0
+
+
+    def v_mov(self,):
+        if self.v_x != 0 or self.v_y != 0 :
+            self.x += self.v_x
+            self.y += self.v_y
+
+
     def rotate(self, dat: list, rot: int) -> list:
         grid = [dat[i*self.wi:(i+1)*self.wi] for i in range(self.he)]
 
@@ -94,6 +103,7 @@ class sprite():
     def draw(self,)->None:
 
         self.dat=self.rotate(self.dat,self.rot)
+        self.v_mov()
 
         if self.visi == True:
             for i in range(self.he):
@@ -101,6 +111,11 @@ class sprite():
                     img.write(self.x + c, self.y + i, self.dat[i*self.he + c])
         self.last_pos_x,self.last_pos_y=self.x,self.y
         self.last_rot=self.rot
+
+def regrid():
+    reset()
+    img.rese()
+    grid()
             
 
 bdat=[1,1,
@@ -114,21 +129,20 @@ pdat=[1,0,0,0,0,0,0,
       1,0,0,0,0,0,0,
       1,0,0,0,0,0,0]
 
-def regrid():
-    reset()
-    img.rese()
-    grid()
 
 ball = sprite(bdat,20,20,0,2,2)
 pa1= sprite(pdat,1,18,0,7,7)
 
 
 tracer(0)
-
-regrid()
-ball.draw()
-pa1.draw()
-updt()
+while True:
+    regrid()
+    pa1.draw()
+    ball.draw()
+    updt()
+    ball.x += 1
+    update()
+    sleep(1)
 
  
 done()
