@@ -73,6 +73,9 @@ class sprite():
         self.visi=visi
         self.wi = wi
         self.he = he
+        self.last_pos_x=-1
+        self.last_pos_y=-1
+        self.last_rot=-1
     
     def rotate(self, dat: list, rot: int) -> list:
         grid = [dat[i*self.wi:(i+1)*self.wi] for i in range(self.he)]
@@ -95,18 +98,27 @@ class sprite():
         if self.visi == True:
             for i in range(self.he):
                 for c in range(self.wi):
-                    if self.dat[i * self.wi + c]:
-                        img.write(self.x + c, self.y + i, True)
+                    img.write(self.x + c, self.y + i, self.dat[i*self.he + c])
+        self.last_pos_x,self.last_pos_y=self.x,self.y
+        self.last_rot=self.rot
             
 
 dit=[1,1,1,
      0,1,0,
      0,1,0]
 
+def regrid():
+    reset()
+    img.rese()
+    grid()
+
 blo = sprite(dit)
+
 tracer(0)
-grid()
+
+regrid()
 blo.draw()
 updt()
 
+ 
 done()
