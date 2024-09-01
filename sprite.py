@@ -77,9 +77,14 @@ class sprite():
         self.last_pos_x=-1
         self.last_pos_y=-1
         self.last_rot=-1
-    
-    def rotate(self, dat: list, rot: int) -> list:
-        grid = [dat[i*self.wi:(i+1)*self.wi] for i in range(self.he)]
+        
+        def v_mov(self,):
+            if self.v_x != 0 or self.v_y != 0 :
+                self.x += self.v_x
+                self.y += self.v_y
+            
+        def rotate(self, dat: list, rot: int) -> list:
+            grid = [dat[i*self.wi:(i+1)*self.wi] for i in range(self.he)]
 
         if rot == 0:
             return dat  # No change
@@ -95,7 +100,8 @@ class sprite():
     def draw(self,)->None:
 
         self.dat=self.rotate(self.dat,self.rot)
-
+        self.v_mov()
+        
         if self.visi == True: #only draw if visible
             for i in range(self.he):
                 for c in range(self.wi):
