@@ -3,6 +3,7 @@ from turtle import*
 from time import sleep
 from random import choice
 
+score=0
 
 class matrix():
     def __init__(self,he=40,wi=40):
@@ -122,7 +123,9 @@ def bounce():
         ball.v_y*= -1   
 
     if pa1.x + 1 == ball.x:
-        if pa1.y <= ball.y <= pa1.y + 7:  
+        if pa1.y <= ball.y <= pa1.y + 7: 
+            global score
+            score+=1
             ball.v_x *= -1 
             if ball.y < pa1.y + 2: 
                 ball.v_y = -1  
@@ -131,6 +134,24 @@ def bounce():
             else:  
                 ball.v_y = 0  
 
+def death()->bool:
+    return ball.x <= pa1.x
+
+def upi()->None:
+    if pa1.y != img.he-pa1.he:
+        pa1.y+=1
+
+def downi()->None:
+    if pa1.y != 0:
+        pa1.y+= -1
+
+def draw_number(number, x, y):
+    penup()  
+    goto(x, y)  
+    pendown()
+    color("white")  
+    write(number, align="center", font=("Arial", 16, "normal"))
+    color("black")
     
 bdat=[1,1,
      1,1]
@@ -147,17 +168,30 @@ pdat=[1,0,0,0,0,0,0,
 ball = sprite(bdat,20,20,0,2,2)
 pa1= sprite(pdat,1,20,0,7,7)
 
+screen = Screen()
+screen.listen()
+
 
 ball.v_x = -1
 tracer(0)
+onkey(upi,"w")
+onkey(downi,"s")
 while True:
     regrid()
+    if death():
+        break
     bounce()
     pa1.draw()
     ball.draw()
     updt()
     update()
-    sleep(0.5)
+    sleep(0.2)
 
- 
+reset()
+img.arr=[1,]*img.size
+updt()
+draw_number(score,203,200)
+draw_number("Score",200,220)
+
+
 done()
