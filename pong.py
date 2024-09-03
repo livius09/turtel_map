@@ -100,8 +100,8 @@ class sprite():
             raise ValueError("Rotation has to be either 0, 90, 180, or 270 degrees.")
 
     def draw(self,)->None:
-
-        self.dat=self.rotate(self.dat,self.rot)
+        if self.rot != self.last_rot:
+            self.dat=self.rotate(self.dat,self.rot)
         self.v_mov()
 
         if self.visi == True:
@@ -190,8 +190,10 @@ while True:
 reset()
 img.arr=[1,]*img.size
 updt()
-draw_number(score,203,200)
+draw_number("Game Over",203,240)
 draw_number("Score",200,220)
+draw_number(score,203,200)
+
 
 
 done()
