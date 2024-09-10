@@ -77,6 +77,8 @@ class sprite():
         self.last_pos_x=-1
         self.last_pos_y=-1
         self.last_rot=-1
+        self.v_x=0
+        self.v_y=0
         
     def v_mov(self,)->None:
         if self.v_x != 0 or self.v_y != 0 :
