@@ -87,7 +87,7 @@ class sprite():
         self.gravi=1
 
     def bounce(self):
-        if self.y <= 0 or self.x >= img.wi - self.wi:
+        if self.x <= 0 or self.x >= img.wi - self.wi:
             self.v_x*= -1
         if self.y<=0 or self.y >= img.he - self.he:
             self.v_y*= -1
@@ -149,7 +149,8 @@ def regrid():
     img.rese()
     grid()
 
-blo = sprite(dit,10,10,)
+blo = sprite(dit,20,20,)
+blo.v_x=1 
 
 tracer(0)
 while(True):

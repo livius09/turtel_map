@@ -1,27 +1,22 @@
 from turtle import*
-from time import sleep
-from random import choice
-
 
 class matrix():
     def __init__(self,he=40,wi=40):
         self.he=he
         self.wi=wi
         self.size=self.he*self.wi
-        self.arr=[False,]*self.size
+        self.arr=[[0 for x in range(self.wi)] for y in range(self.he)]
     
     def read(self,x: int,y: int)-> bool:
         x,y=int(x),int(y)
-        adr= x+(y * self.wi)
-        return (self.arr[adr])
+        return (self.arr[x][y])
     
     def write(self,x: int,y: int,w:bool)->None:
         x,y=int(x),int(y)
-        adr= x+(y* self.wi)
-        self.arr[adr]=w
+        self.arr[x][y]=w
         
     def rese(self):
-        self.arr=[0]*self.size
+        self.arr=[[0 for x in range(self.wi)] for y in range(self.he)]
 
 
 img=matrix()
