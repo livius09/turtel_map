@@ -64,6 +64,8 @@ class sprite():
             self.y += self.v_y
             
     def rotate(self, dat: list, rot: int) -> list:
+        if rot == 90:
+            dat=dat[::-1]
 
         return dat
        
@@ -104,12 +106,13 @@ def grid()->None:
 
 
 
-dit=[[1,1,1],
-     [0,1,0],
-     [0,1,1]]
+dit=[[1,0,0,1],
+    [0,0,0,0],
+    [1,0,0,1],
+    [0,1,1,0]]
 
 
-blo = sprite(dit,10,10)
+blo = sprite(dit,10,10,True)
 
 tracer(0)
 
