@@ -1,5 +1,6 @@
 #game engin yeah
 from turtle import*
+from time import sleep
 
 class matrix():
     def __init__(self,he=40,wi=40):
@@ -57,22 +58,42 @@ class sprite():
         self.last_rot=-1
         self.v_x=0
         self.v_y=0
+        self.edgeB=True
         
     def v_mov(self,)->None:
-        if self.v_x != 0 or self.v_y != 0 :
-            self.x += self.v_x
-            self.y += self.v_y
+        new_x = self.x + self.v_x
+        new_y = self.y + self.v_y
+        
+        if new_x < 0 or new_x + self.wi > img.wi: 
+            self.v_x*= -1
+            new_x=self.x + self.v_x
             
-    def rotate(self, dat: list, rot: int) -> list:
-        if rot == 90:
-            dat=dat[::-1]
 
-        return dat
+        if new_y < 0 or new_y + self.he > img.he:
+            self.v_y*=-1
+            new_y = self.y + self.v_y
+
+        self.x = new_x
+        self.y = new_y    
+            
+            
+    def rotate(self,rot:int) -> list:
+                if rot==180:
+                    tmp=self.data[::-1]
+                elif rot==90:
+                    tmp =[[0 for x in range(self.he)] for y in range(self.wi)]
+                    for i in range(self.he):
+                        for j in range(self.wi):
+                            tmp[j][i]=self.data[i][j]     
+                    self.data=tmp[::-1]
+            
+            
+
        
 
     def draw(self)->None:
 
-        self.data=self.rotate(self.data,self.rot)
+        #self.data=self.rotate(self.data,self.rot)
         self.v_mov()
         
         if self.visi == True: #only draw if visible
@@ -111,14 +132,17 @@ dit=[[1,0,0,1],
     [1,0,0,1],
     [0,1,1,0]]
 
-
-blo = sprite(dit,10,10,True)
+blo = sprite(dit,10,10)
+blo.v_y=1
+blo.v_x=1
 
 tracer(0)
 
-regrid()
-blo.draw()
-updt()
-
+while True:
+    regrid()    
+    blo.draw()
+    updt()
+    update()
+    sleep(0.2)
  
 done()
