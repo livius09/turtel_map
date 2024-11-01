@@ -22,6 +22,7 @@ class matrix():
 
 
 img=matrix()
+sprites=[]
 
 
 def square(x: int,y: int) ->None :
@@ -59,6 +60,7 @@ class sprite():
         self.v_x=0
         self.v_y=0
         self.edgeB=True
+        sprites.append(self)
         
     def v_mov(self,)->None:
         new_x = self.x + self.v_x
@@ -72,6 +74,13 @@ class sprite():
         if new_y < 0 or new_y + self.he > img.he:
             self.v_y*=-1
             new_y = self.y + self.v_y
+
+        for i in range(self.he):
+            for j in range(self.wi):
+                if self.data[i][j] == 1 and img.read(new_x + j, new_y + i) == 1:
+                    self.v_x*= -1
+                    self.v_y*= -1
+                    return
 
         self.x = new_x
         self.y = new_y    
@@ -131,7 +140,12 @@ dit=[[1,1,1],
      [0,1,0],
      [0,1,1]]
 
+
+ik = sprite(dit,15,15)
 blo = sprite(dit,10,10)
+ik.v_y=-1
+ik.v_x=1
+
 blo.v_y=1
 blo.v_x=1
 
@@ -139,7 +153,10 @@ tracer(0)
 
 while True:
     regrid()    
-    blo.draw()
+
+    for obj in sprites:
+        obj.draw()
+
     updt()
     update()
     sleep(0.2)
