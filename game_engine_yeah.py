@@ -65,15 +65,23 @@ class sprite():
     def v_mov(self,)->None:
         new_x = self.x + self.v_x
         new_y = self.y + self.v_y
-        
-        if new_x < 0 or new_x + self.wi > img.wi: 
-            self.v_x*= -1
-            new_x=self.x + self.v_x
+
+        if self.edgeB:
+            if new_x < 0 or new_x + self.wi > img.wi: 
+                self.v_x*= -1
+                new_x=self.x + self.v_x
+
+            if new_y < 0 or new_y + self.he > img.he:
+                self.v_y*=-1
+                new_y = self.y + self.v_y
+        else:
+            if new_x < 0 or new_x + self.wi > img.wi or new_y < 0 or new_y + self.he > img.he:
+                sprites.remove(self)  # Remove from the global list
+                return
             
 
-        if new_y < 0 or new_y + self.he > img.he:
-            self.v_y*=-1
-            new_y = self.y + self.v_y
+
+
 
         for i in range(self.he):
             for j in range(self.wi):
@@ -101,8 +109,6 @@ class sprite():
        
 
     def draw(self)->None:
-
-        #self.data=self.rotate(self.data,self.rot)
         self.v_mov()
         
         if self.visi == True: #only draw if visible
@@ -148,6 +154,7 @@ ik.v_x=1
 
 blo.v_y=1
 blo.v_x=1
+blo.edgeB=False
 
 tracer(0)
 
