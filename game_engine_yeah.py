@@ -25,9 +25,13 @@ img=matrix()
 sprites=[]
 
 
-def square(x: int,y: int) ->None :
+def square(x: int, y: int, RGB: list = None) -> None:
     penup()
-    goto(x*10,y*10)
+    goto(x * 10, y * 10)
+    if RGB is not None:
+        color(RGB[0] / 255, RGB[1] / 255, RGB[2] / 255)
+    else:
+        color(0, 0, 0)
     pendown()
     setheading(0)
     begin_fill()
@@ -35,12 +39,18 @@ def square(x: int,y: int) ->None :
         forward(10)
         right(-90)
     end_fill()
+    color(0, 0, 0)
     penup()
+
 
 def updt():
     for i in range(img.he):
         for c in range(img.wi):
-            if img.read(i,c) == True:
+            val=img.read(i,c)
+            if isinstance(val,list):
+                rgb = img.read(i,c)
+                square(i,c,rgb)
+            elif img.read(i,c) == 1:
                 square(i,c)
 
 class sprite():
