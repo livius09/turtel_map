@@ -22,6 +22,7 @@ class matrix():
 
 
 img=matrix()
+
 sprites=[]
 
 
@@ -42,6 +43,41 @@ def square(x: int, y: int, RGB: list = None) -> None:
     color(0, 0, 0)
     penup()
 
+def check(duti:list)->bool: #cheks the integrety of the duti returns true if good and false if its bad
+
+    for i in range(len(duti)):#check if all are a list 
+        if not isinstance(duti[i],list):
+            print("first")
+            return False
+            
+
+    whidth = len(duti[0])   
+    height = len(duti) 
+
+    for c in range(len(duti)): #check if all colums are the same length
+        if len(duti[c])!=whidth:
+            print("second")
+            return False
+        
+    
+
+    for g in range(height):#check for every element in the arr if its eitheer a list whit exatly a lenght of 3 of a bolean
+        for j in range(whidth):
+            if not ((isinstance(duti[g][j],list) and  len(duti[g][j])==3) or isinstance(duti[g][j],bool)) :
+                return False
+            
+    for i in range(height):#check for every in the arr if its a sub arr and if its content are int int the byte range
+        for j in range(whidth):
+            if isinstance(duti[i][j],list):
+                for l in range(3):
+                    if not isinstance(duti[i][j][l], int) or not (0 <= duti[i][j][l] <= 255):
+                        return False
+                    if isinstance(duti[i][j][l], bool):
+                        return False
+                  
+    return True
+                
+                
 
 def updt():
     for i in range(img.he):
@@ -55,7 +91,6 @@ def updt():
 
 class sprite():
     def __init__(self,dat:list,x=0,y=0,visi=True,rot=0):
-        
         
         self.x = x
         self.y = y
@@ -89,9 +124,6 @@ class sprite():
                 sprites.remove(self)  # Remove from the global list
                 return
             
-
-
-
 
         for i in range(self.he):
             for j in range(self.wi):
@@ -152,10 +184,11 @@ def grid()->None:
 
 
 
-dit=[[1,1,1],
-     [0,1,0],
-     [0,1,1]]
+dit=[[False,True,True],
+     [False,True,False],
+     [[100,0,100],True,True]]
 
+print(check(dit))
 
 ik = sprite(dit,15,15)
 blo = sprite(dit,10,10)
