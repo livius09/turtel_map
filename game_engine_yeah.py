@@ -92,10 +92,10 @@ def updt():
 class sprite():
     def __init__(self,dat:list,x=0,y=0,visi=True,rot=0):
         
-        self.x = x
+        self.x = x #like well the cur pos
         self.y = y
         self.rot = rot #rotation
-        self.data = dat[::-1]
+        self.data = dat[::-1] #the visual data in form of a 2d arr 
         self.visi=visi #if visible
         self.wi = len(dat[0])
         self.he = len(dat)
@@ -104,10 +104,10 @@ class sprite():
         self.last_rot=-1
         self.v_x=0
         self.v_y=0
-        self.edgeB=True
-        sprites.append(self)
+        self.edgeB=True #if the sprite will bounce from walls or kill itself
+        sprites.append(self) #append this sprite to the render pipeline
         
-    def v_mov(self,)->None:
+    def v_mov(self,)->None: #moves the sprite by its cur vecs 
         new_x = self.x + self.v_x
         new_y = self.y + self.v_y
 
@@ -121,14 +121,14 @@ class sprite():
                 new_y = self.y + self.v_y
         else:
             if new_x < 0 or new_x + self.wi > img.wi or new_y < 0 or new_y + self.he > img.he:
-                sprites.remove(self)  # Remove from the global list
+                sprites.remove(self)  # Remove from the global list #suicide yai
                 return
             
 
-        for i in range(self.he):
+        for i in range(self.he):#pretty shitty colision func 
             for j in range(self.wi):
                 if self.data[i][j] == 1 and img.read(new_x + j, new_y + i) == 1:
-                    self.v_x*= -1
+                    self.v_x*= -1 #you cant negate something that is zero
                     self.v_y*= -1
                     return
 
@@ -153,16 +153,39 @@ class sprite():
     def draw(self)->None:
         self.v_mov()
         
-        if self.visi == True: #only draw if visible
+        if self.visi == True: #only do draw if visible
             for i in range(self.he):
                 for c in range(self.wi):
                     img.write(self.x + c, self.y + i, self.data[i][c])
         self.last_pos_x,self.last_pos_y=self.x,self.y 
         self.last_rot=self.rot
 
+def shader(dat:list,shader:list,over=True)->list: #wanabe U V shader
+    def wraping(x:int,y:int,arr:list)->list: #aplies the shader repetetly oder so, so no no exeptions
+        
+        y=y % len(arr)
+        x=x % len(arr[y])
+
+        return arr[y][x]
+
+    if over: #if it should overwrite already colored blocks
+        for i in range(len(dat)):
+            for k in range(len(dat[i])):
+                if (dat[i][k]==True or isinstance(dat[i][k],list)):
+                    dat[i][k]=wraping(k,i,shader)
+    else:
+        for i in range(len(dat)):
+            for k in range(len(dat[i])):
+                if(isinstance(dat[i][k],bool) and dat[i][k]==True):
+                    dat[i][k]=wraping(k,i,shader)
+    
+    return dat
+
+    
 
 
-def regrid():
+
+def regrid(): #retset and redraw grid
     reset()
     img.rese()
     grid()
@@ -184,9 +207,16 @@ def grid()->None:
 
 
 
-dit=[[False,True,True],
-     [False,True,False],
-     [[100,0,100],True,True]]
+dit=[[False,True,True,True],
+     [False,True,False,True],
+     [[100,0,100],True,True,True],
+     [False,True,True,True]]
+
+shad=[[[100,0,0]],
+      [[0,100,0]]]
+
+shed=[[[0,100,200]],
+      [[100,0,50]]]
 
 print(check(dit))
 
@@ -202,13 +232,24 @@ blo.edgeB=False
 tracer(0)
 
 while True:
-    regrid()    
+    regrid() 
+    blo.data = shader(dit,shad)   
 
     for obj in sprites:
         obj.draw()
 
     updt()
     update()
-    sleep(0.2)
+    sleep(0.5)
+
+    regrid()
+    blo.data = shader(dit,shed)    
+    
+    for obj in sprites:
+        obj.draw()
+
+    updt()
+    update()
+    sleep(0.5)
  
 done()
