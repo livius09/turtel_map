@@ -1,4 +1,6 @@
 #game engin yeah
+from multiprocessing import shared_memory
+from operator import truediv
 from turtle import*
 from time import sleep
 
@@ -181,6 +183,12 @@ def shader(dat:list,shader:list,over=True)->list: #wanabe U V shader
     
     return dat
 
+def unshader(dat:list)->list:
+    for i in range(len(dat)):
+            for k in range(len(dat[i])):
+                if isinstance(dat[i][k],list):
+                    dat[i][k]=True
+    return dat
     
 
 
@@ -224,6 +232,10 @@ ik = sprite(dit,15,15)
 blo = sprite(dit,10,10)
 ik.v_y=-1
 ik.v_x=1
+
+olo=shader(dit,shad)
+olo=unshader(olo)
+print(olo)
 
 blo.v_y=1
 blo.v_x=1
