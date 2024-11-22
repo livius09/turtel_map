@@ -3,6 +3,7 @@ from multiprocessing import shared_memory
 from operator import truediv
 from turtle import*
 from time import sleep
+import copy
 
 class matrix():
     def __init__(self,he=40,wi=40):
@@ -97,7 +98,7 @@ class sprite():
         self.x = x #like well the cur pos
         self.y = y
         self.rot = rot #rotation
-        self.data = dat[::-1] #the visual data in form of a 2d arr 
+        self.data = copy.deepcopy(dat[::-1]) #the visual data in form of a 2d arr /deep coppy so every obj gets its own arr
         self.visi=visi #if visible
         self.wi = len(dat[0])
         self.he = len(dat)
@@ -148,9 +149,6 @@ class sprite():
                             tmp[j][i]=self.data[i][j]     
                     self.data=tmp[::-1]
             
-            
-
-       
 
     def draw(self)->None:
         self.v_mov()
@@ -214,11 +212,10 @@ def grid()->None:
         penup()
 
 
-
-dit=[[False,True,True,True],
-     [False,True,False,True],
-     [[100,0,100],True,True,True],
-     [False,True,True,True]]
+dit=[[False,True,False],
+     [False,True,False],
+     [False,True,False],
+     [True,True,True]]
 
 shad=[[[100,0,0]],
       [[0,100,0]]]
@@ -233,9 +230,7 @@ blo = sprite(dit,10,10)
 ik.v_y=-1
 ik.v_x=1
 
-olo=shader(dit,shad)
-olo=unshader(olo)
-print(olo)
+blo.data=shader(blo.data,shed,False)
 
 blo.v_y=1
 blo.v_x=1
@@ -245,18 +240,7 @@ tracer(0)
 
 while True:
     regrid() 
-    blo.data = shader(dit,shad)   
 
-    for obj in sprites:
-        obj.draw()
-
-    updt()
-    update()
-    sleep(0.5)
-
-    regrid()
-    blo.data = shader(dit,shed)    
-    
     for obj in sprites:
         obj.draw()
 
