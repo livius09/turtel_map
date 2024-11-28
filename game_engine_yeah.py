@@ -1,6 +1,4 @@
 #game engin yeah
-from multiprocessing import shared_memory
-from operator import truediv
 from turtle import*
 from time import sleep
 import copy
@@ -14,11 +12,11 @@ class matrix():
     
     def read(self,x: int,y: int)-> bool:
         x,y=int(x),int(y)
-        return (self.arr[x][y])
+        return (self.arr[y][x])
     
     def write(self,x: int,y: int,w:bool)->None:
         x,y=int(x),int(y)
-        self.arr[x][y]=w
+        self.arr[y][x]=w
         
     def rese(self):
         self.arr=[[0 for x in range(self.wi)] for y in range(self.he)]
