@@ -1,9 +1,8 @@
-#game engin yeah
-from multiprocessing import shared_memory
-from operator import truediv
+#bird sim
 from turtle import*
 from time import sleep
 import copy
+from random import randint
 
 class matrix():
     def __init__(self,he=40,wi=40):
@@ -213,28 +212,25 @@ def grid()->None:
 
 
 dit=[[False,True,False],
+     [True,True,True],
      [False,True,False],
-     [False,True,False],
-     [True,True,True]]
+     [False,True,False]]
 
-shad=[[[100,0,0]],
-      [[0,100,0]]]
+flock_V_X =      
 
-shed=[[[0,100,200]],
-      [[100,0,50]]]
+flock_V_Y =   
 
-print(check(dit))
+bird0=sprite(dit,0)
+bird0.v_y=1
 
-ik = sprite(dit,15,15)
-blo = sprite(dit,10,10)
-ik.v_y=-1
-ik.v_x=1
+bird1=sprite(dit,4)
+bird1.v_y=1
 
-blo.data=shader(blo.data,shed,False)
+bird2=sprite(dit,8)
+bird2.v_y=1
 
-blo.v_y=1
-blo.v_x=1
-blo.edgeB=False
+
+
 
 tracer(0)
 
