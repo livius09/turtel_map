@@ -1,6 +1,4 @@
 #game engin yeah
-from multiprocessing import shared_memory
-from operator import truediv
 from turtle import*
 from time import sleep
 import copy
