@@ -12,19 +12,21 @@ class matrix():
     
     def read(self,x: int,y: int)-> bool:
         x,y=int(x),int(y)
+        print("read: x: "+x +" y: "+y)
         return (self.arr[x][y])
     
     def write(self,x: int,y: int,w:bool)->None:
         x,y=int(x),int(y)
+        print("read: x: "+x +" y: "+y)
         self.arr[x][y]=w
         
     def rese(self):
         self.arr=[[0 for x in range(self.wi)] for y in range(self.he)]
 
 
-img=matrix()
+img=matrix(20,30)
 
-sprites=[]
+sprites=[] #render pipeline
 
 
 def square(x: int, y: int, RGB: list = None) -> None:
