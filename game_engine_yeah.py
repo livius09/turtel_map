@@ -26,7 +26,9 @@ class matrix():
 
 img=matrix()
 
-sprites=[] #render pipeline
+renderpipe=[] #render pipeline
+sprites=[]#keeps track of existing sprites
+
 
 
 def square(x: int, y: int, RGB: list = None) -> None:
@@ -82,18 +84,18 @@ def check(duti:list)->bool: #cheks the integrety of the duti returns true if goo
                 
                 
 
-def updt():
-    for i in range(img.wi):
+def updt(): #paint the sqares acording the matrix
+    for i in range(img.wi): 
         for c in range(img.he):
             val=img.read(i,c)
-            if isinstance(val,list):
+            if isinstance(val,list): #if its an rgb arr parse it ass such
                 rgb = img.read(i,c)
                 square(i,c,rgb)
-            elif img.read(i,c) == 1:
+            elif img.read(i,c) == 1: #if not just paint a black square
                 square(i,c)
 
 class sprite():
-    def __init__(self,dat:list,x=0,y=0,visi=True,rot=0):
+    def __init__(self,dat:list,x=0,y=0,visi=True,rot=0,rendadd=True):
         
         self.x = x #like well the cur pos
         self.y = y
@@ -108,7 +110,10 @@ class sprite():
         self.v_x=0
         self.v_y=0
         self.edgeB=True #if the sprite will bounce from walls or kill itself
-        sprites.append(self) #append this sprite to the render pipeline
+        self.bounl=0 #wich layer it will bounce whith smaler bounces of biger vice versa if theyr the same the both bounce
+        sprites.append(self) #add itself to the list of all sprites
+        if rendadd:
+            renderpipe.append(self) #append this sprite to the render pipeline
         
     def v_mov(self,)->None: #moves the sprite by its cur vecs 
         new_x = self.x + self.v_x
@@ -124,7 +129,7 @@ class sprite():
                 new_y = self.y + self.v_y
         else:
             if new_x < 0 or new_x + self.wi > img.wi or new_y < 0 or new_y + self.he > img.he:
-                sprites.remove(self)  # Remove from the global list #suicide yai
+                renderpipe.remove(self)  # Remove from the global list #suicide yai
                 return
             
 
@@ -187,8 +192,6 @@ def unshader(dat:list)->list:
                 if isinstance(dat[i][k],list):
                     dat[i][k]=True
     return dat
-    
-
 
 
 def regrid(): #retset and redraw grid
@@ -241,7 +244,7 @@ tracer(0)
 while True:
     regrid() 
 
-    for obj in sprites:
+    for obj in renderpipe:
         obj.draw()
 
     updt()
