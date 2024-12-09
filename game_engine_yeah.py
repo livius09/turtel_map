@@ -5,26 +5,26 @@ import copy
 
 class matrix():
     def __init__(self,he=40,wi=40):
-        self.he=he
-        self.wi=wi
+        self.he=he+1
+        self.wi=wi+1
         self.size=self.he*self.wi
         self.arr=[[0 for x in range(self.wi)] for y in range(self.he)]
     
     def read(self,x: int,y: int)-> bool:
         x,y=int(x),int(y)
-        return (self.arr[y][x])
+        return (self.arr[x][y])
     
     def write(self,x: int,y: int,w:bool)->None:
         x,y=int(x),int(y)
-        self.arr[y][x]=w
+        self.arr[x][y]=w
         
     def rese(self):
         self.arr=[[0 for x in range(self.wi)] for y in range(self.he)]
 
 
-img=matrix()
+img=matrix(20,30)
 
-sprites=[]
+sprites=[] #render pipeline
 
 
 def square(x: int, y: int, RGB: list = None) -> None:
