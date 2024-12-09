@@ -5,24 +5,26 @@ import copy
 
 class matrix():
     def __init__(self,he=40,wi=40):
-        self.he=he+1
-        self.wi=wi+1
+        self.he=he
+        self.wi=wi
         self.size=self.he*self.wi
         self.arr=[[0 for x in range(self.wi)] for y in range(self.he)]
     
     def read(self,x: int,y: int)-> bool:
         x,y=int(x),int(y)
-        return (self.arr[x][y])
+        #print("reading: x: " + str(x) + " y: "+str(y))
+        return (self.arr[y][x])
     
     def write(self,x: int,y: int,w:bool)->None:
         x,y=int(x),int(y)
-        self.arr[x][y]=w
+        #print("writing: x: " + str(x) + " y: "+str(y))
+        self.arr[y][x]=w
         
     def rese(self):
         self.arr=[[0 for x in range(self.wi)] for y in range(self.he)]
 
 
-img=matrix(20,30)
+img=matrix()
 
 sprites=[] #render pipeline
 
@@ -81,8 +83,8 @@ def check(duti:list)->bool: #cheks the integrety of the duti returns true if goo
                 
 
 def updt():
-    for i in range(img.he):
-        for c in range(img.wi):
+    for i in range(img.wi):
+        for c in range(img.he):
             val=img.read(i,c)
             if isinstance(val,list):
                 rgb = img.read(i,c)
