@@ -1,4 +1,5 @@
 #game engin yeah
+from operator import truediv
 from turtle import*
 from time import sleep
 import copy
@@ -24,7 +25,7 @@ class matrix():
         self.arr=[[0 for x in range(self.wi)] for y in range(self.he)]
 
 
-img=matrix()
+img=matrix(30,30)
 
 renderpipe=[] #render pipeline
 sprites=[]#keeps track of existing sprites
@@ -165,6 +166,19 @@ class sprite():
         self.last_pos_x,self.last_pos_y=self.x,self.y 
         self.last_rot=self.rot
 
+def colision(a:sprite,b:sprite)->bool:
+    if b.x == a.x or b.y==a.y:
+        return True
+    else:
+        return False
+
+def bounce(a:sprite,b:sprite):
+    if colision(a,b):
+        a.v_x*=-1
+        a.v_y*=-1
+        b.v_x*=-1
+        b.v_y*=-1
+
 def shader(dat:list,shader:list,over=True)->list: #wanabe U V shader
     def wraping(x:int,y:int,arr:list)->list: #aplies the shader repetetly oder so, so no no exeptions
         
@@ -228,24 +242,32 @@ shed=[[[0,100,200]],
 
 print(check(dit))
 
-ik = sprite(dit,15,15)
-blo = sprite(dit,10,10)
-ik.v_y=-1
-ik.v_x=1
+ik = sprite(dit,10,0)
+blo = sprite(dit,0,0)
+#ik.v_y=-1
+ik.v_x=-1
 
 blo.data=shader(blo.data,shed,False)
 
-blo.v_y=1
+#blo.v_y=1
 blo.v_x=1
-blo.edgeB=False
 
 tracer(0)
 
 while True:
     regrid() 
 
+    if blo.x == ik.x and blo.y == ik.y:
+        blo.v_x*=-1
+        blo.v_y*=-1
+        ik.v_x*=-1
+        ik.v_y*=-1
+
+
     for obj in renderpipe:
         obj.draw()
+
+    #colision(blo,ik)
 
     updt()
     update()
