@@ -156,7 +156,7 @@ class sprite():
             
 
     def draw(self)->None:
-        self.v_mov()
+        self.v_mov() 
         
         if self.visi == True: #only do draw if visible
             for i in range(self.he):
