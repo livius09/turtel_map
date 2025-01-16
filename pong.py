@@ -152,6 +152,7 @@ def draw_number(number, x, y):
     color("white")  
     write(number, align="center", font=("Arial", 16, "normal"))
     color("black")
+    penup()
     
 bdat=[1,1,
      1,1]

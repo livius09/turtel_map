@@ -53,33 +53,3 @@ def updt():
                 square(i,c,rgb)
             elif img.read(i,c) == 1:
                 square(i,c)
-
-
-# Define colors
-BLACK = [0, 0, 0]
-WHITE = [255, 255, 255]
-YELLOW = [255, 255, 0]  # Face color
-
-# Array pattern for a 20x20 smiley face
-smiley_pattern = [
-[YELLOW]+[BLACK]+[YELLOW]+[BLACK]+[YELLOW],
-[YELLOW]*5,
-[BLACK]+[YELLOW]*3+[BLACK],
-[YELLOW]+[BLACK]+[YELLOW]+[BLACK]+[YELLOW],
-[YELLOW]*2+[BLACK]+[YELLOW]*2,
-]
-smiley_pattern=smiley_pattern[::-1]
-# Write this pattern to your img matrix
-for y in range(len(smiley_pattern)):
-    for x in range(len(smiley_pattern[0])):
-        print(x,y)
-        img.write(x + 10, y + 10, smiley_pattern[y][x])  # Offset by 10,10 to center it in 40x40 grid
-
-img.write(1,1,True)
-
-# Update to draw the cat
-tracer(0)
-updt()
-update()
-
-done()

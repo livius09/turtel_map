@@ -240,8 +240,8 @@ def grid()->None:
 for i in range(30):
     dit=[[[randrange(254),randrange(254),randrange(254)]]]
     sprit=sprite(dit,10,10)
-    sprit.v_x=randrange(7)
-    sprit.v_y=randrange(7)
+    sprit.v_x=randrange(10)
+    sprit.v_y=randrange(10)
 
 
 tracer(0)
@@ -262,6 +262,6 @@ while True:
 
     updt()
     update()
-    sleep(0.5)
+    sleep(0.3)
  
 done()

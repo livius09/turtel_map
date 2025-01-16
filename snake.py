@@ -1,7 +1,8 @@
-#game engin yeah
+#snake
 from turtle import*
 from time import sleep
 import copy
+from random import*
 
 class matrix():
     def __init__(self,he=40,wi=40):
@@ -130,6 +131,7 @@ class sprite():
         else:
             if new_x < 0 or new_x + self.wi > img.wi or new_y < 0 or new_y + self.he > img.he:
                 renderpipe.remove(self)  # Remove from the global list #suicide yai
+                magame.game_over()
                 return
             
        
@@ -165,6 +167,90 @@ class sprite():
         self.last_pos_x,self.last_pos_y=self.x,self.y 
         self.last_rot=self.rot
 
+class snake_head(sprite):
+    def upf(self):
+        if self.v_y != -1:
+            self.v_x=0
+            self.v_y=1
+    
+    def dowf(self):   
+        if self.v_y != 1:
+            self.v_x=0
+            self.v_y=-1
+
+    def leff(self):
+        if self.v_x !=  1:
+            self.v_x=-1
+            self.v_y=0
+    
+    def rigf(self):
+        if self.v_x !=  -1:
+            self.v_x=1
+            self.v_y=0
+    
+    def __init__(self, dat, x=0, y=0, visi=True, rot=0, rendadd=True):
+        super().__init__(dat, x, y, visi, rot, rendadd)
+        self.tail=[self]
+        id=1
+
+
+    def add_tail(self):
+        tmp=sprite([[True]],self.tail[-1].x, self.tail[-1].y)
+        tmp.edgeB=False
+        self.tail.append(tmp)
+
+    def upd_v_tail(self):
+        for i in  range(len(self.tail)-1,0,-1):
+            self.tail[i].x=self.tail[i-1].x
+            self.tail[i].y=self.tail[i-1].y
+
+
+class aples(sprite):
+    def __init__(self, dat, x=0, y=0, visi=True, rot=0, rendadd=True):
+        super().__init__(dat, x, y, visi, rot, rendadd)
+
+    def catch(self):
+        if colision(self,head):
+            magame.points+=1
+            self.x=randrange(0,29)
+            self.y=randrange(0,29)
+            head.add_tail()
+            print(f"Points: {magame.points}")
+
+
+class game():
+    def __init__(self):
+        self.points=0
+
+    def check_game_over(self):
+        for obj in head.tail[1:]:
+            if colision(head,obj):
+                self.game_over()
+                return True
+        return False
+
+    def game_over(self):
+        draw_number("Game Over",150,150)
+        draw_number("Score",150,100)
+        draw_number(self.points,150,50)    
+        updt()
+        update()
+
+
+def draw_number(number, x, y):
+    penup()  
+    goto(x, y)  
+    pendown() 
+    write(number, align="center", font=("Arial", 40, "normal"))
+    penup()
+    
+
+    
+
+
+        
+        
+
 
 
 def colision(a: sprite, b: sprite) -> bool:
@@ -176,13 +262,6 @@ def colision(a: sprite, b: sprite) -> bool:
         b.y + b.he <= a.y     # b is completely above a
     )
             
-
-def bounce(a:sprite,b:sprite):
-    if colision(a,b):
-        a.v_x*=-1
-        a.v_y*=-1
-        b.v_x*=-1
-        b.v_y*=-1
 
 def shader(dat:list,shader:list,over=True)->list: #wanabe U V shader
     def wraping(x:int,y:int,arr:list)->list: #aplies the shader repetetly oder so, so no no exeptions
@@ -233,45 +312,47 @@ def grid()->None:
         forward(img.he*10)
         penup()
 
-
-dit=[[False,True,False],
-     [False,True,False],
-     [False,True,False],
-     [True,True,True]]
-
-shad=[[[100,0,0]],
-      [[0,100,0]]]
-
-shed=[[[0,100,200]],
-      [[100,0,50]]]
-
-print(check(dit))
-
-ik = sprite(dit,10,0)
-blo = sprite(dit,0,0)
-#ik.v_y=-1
-ik.v_x=-1
-
-blo.data=shader(blo.data,shed,False)
-
-#blo.v_y=1
-blo.v_x=1
-
 tracer(0)
 
+apledat=[[[255,0,0]]]
+taildat=[[True]]
+headdat=[[[0,255,0]]]
 
+listen()
+
+head=snake_head(headdat,10,10)
+head.edgeB=False
+
+
+aple=aples(apledat,20,20)
+magame=game()
+
+onkey(head.upf, "w")
+onkey(head.dowf, "s")
+onkey(head.leff, "a")
+onkey(head.rigf, "d")
+
+print(renderpipe)
+print(head.tail)
+print(renderpipe[0].data)
 
 while True:
     regrid() 
 
     
-
-
     for obj in renderpipe:
         obj.draw()
 
+    if magame.check_game_over():
+        break
+
+    if head not in renderpipe:
+        break
+
     updt()
     update()
+    head.upd_v_tail()
+    aple.catch()
     sleep(0.5)
  
 done()
