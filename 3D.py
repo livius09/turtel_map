@@ -1,3 +1,5 @@
+from mimetypes import init
+from re import X
 from turtle import*
 from time import sleep
 from random import choice
@@ -23,6 +25,8 @@ class matrix():
 
 
 img=matrix()
+id=0
+rendlist=[]
 
 
 
@@ -53,3 +57,37 @@ def updt():
                 square(i,c,rgb)
             elif img.read(i,c) == 1:
                 square(i,c)
+
+
+class vertex():
+    def __init__(self,x:int,y:int,conections:tuple) -> None:
+        global id,rendlist
+        self.id=id
+        id+=1
+        rendlist.append(self)
+        self.x=x
+        self.y=y
+        self.conection=conections
+
+    def draw(self):
+        square(self.x,self.y)
+
+    def draw_line(self):
+        for conn_id in self.conection:
+            conn_vertex = rendlist[conn_id]
+            penup()
+            goto(self.x * 10 + 5, self.y * 10 + 5)  # Start from center of square
+            pendown()
+            goto(conn_vertex.x * 10 + 5, conn_vertex.y * 10 + 5)  # Go to center of connected square
+            penup()
+
+ba=vertex(1,1,(1,2))
+bb=vertex(10,1,(0,2))
+bc=vertex(10,10,(0,1))
+
+for obj in rendlist:
+    obj.draw()
+    obj.draw_line()
+
+
+done()
