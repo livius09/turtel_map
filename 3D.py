@@ -58,6 +58,21 @@ def updt():
             elif img.read(i,c) == 1:
                 square(i,c)
 
+def grid()->None:
+    penup()
+    setheading(0)
+    for c in range(img.he+1):
+        goto(0,c*10)
+        pendown()
+        forward(img.wi*10)
+        penup()
+    setheading(-90)
+    for i in range(img.wi+1):
+        goto(i*10,img.he*10)
+        pendown()
+        forward(img.he*10)
+        penup()
+
 
 class vertex():
     def __init__(self,x:int,y:int,conections:tuple) -> None:
@@ -81,11 +96,17 @@ class vertex():
             goto(conn_vertex.x * 10 + 5, conn_vertex.y * 10 + 5)  # Go to center of connected square
             penup()
 
-ba=vertex(1,1,(1,2))
-bb=vertex(10,1,(0,2))
-bc=vertex(10,10,(0,1))
+b0=vertex(0,0,(1,0))
+b1=vertex(10,0,(0,2))
+b2=vertex(10,10,(1,2))
+b3=vertex(0,10,(0,2))
+b4=vertex(15,15,(2,4))
+b5=vertex(15,5,(1,4))
+b6=vertex(5,15,(3,4))
+b7=vertex(5,5,(0,6,7,5))
 
-for obj in rendlist:
+
+for obj in rendlist:   
     obj.draw()
     obj.draw_line()
 
