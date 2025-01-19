@@ -10,12 +10,26 @@ ip="127.0.0.1"
 
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-serv.bind((ip,port))
-serv.listen(1)
-print(f"server listening on port:{port}")
-client_sok, client_adr = serv.accept()
+while True:
+    mo=input("which mode 1.server or 2.client: ")
+    if mo=="1" or mo=="2":
+        break
 
-print(f"conetion from ip:{client_adr}")
+if mo=="1":
+    serv.bind((ip,port))
+    serv.listen(1)
+    print(f"server listening on port:{port}")
+    client_sok, client_adr = serv.accept()
+
+    print(f"conetion from ip:{client_adr}")
+elif mo=="2":
+    client_socket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    while True:
+        host=input("input ip to conect to:")
+        try:
+            client_socket.connect((host, port))
+        except:
+            print("conection Failed")
 
 class matrix():
     def __init__(self,he=40,wi=40):
