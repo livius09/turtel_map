@@ -5,8 +5,9 @@ import copy
 from random import*
 import socket
 
-port=115
+port=1151
 ip="127.0.0.1"
+mo=None
 
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -23,13 +24,14 @@ if mo=="1":
 
     print(f"conetion from ip:{client_adr}")
 elif mo=="2":
-    client_socket=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_sok=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     while True:
         host=input("input ip to conect to:")
         try:
-            client_socket.connect((host, port))
-        except:
-            print("conection Failed")
+            client_sok.connect((host, port))
+            break
+        except Exception as e:
+            print(f"conection Failed:{e}")
 
 class matrix():
     def __init__(self,he=40,wi=40):
@@ -276,11 +278,19 @@ class aples(sprite):
     def __init__(self, dat, x=0, y=0, visi=True, rot=0, rendadd=True):
         super().__init__(dat, x, y, visi, rot, rendadd)
 
-    def catch(self,snake):
+    def catch(self,snake,client_sok):
+        global mo
+        
         if colision(self,snake):
             magame.points+=1
-            self.x=randrange(0,29)
-            self.y=randrange(0,29)
+            x=randrange(0,29)
+            y=randrange(0,29)
+            if mo=="1":
+                client_sok.sendall("a".encode())
+                client_sok.sendall(str(x).zfill(2).encode())  # Ensures 2-byte length
+                client_sok.sendall(str(y).zfill(2).encode())
+            self.x=x
+            self.y=y
             snake.add_tail()
             print(f"Points: {magame.points}")
 
@@ -385,6 +395,9 @@ def select(snake,ein:str):
         snake.rigf()
     elif ein =="e":
         return True
+    elif ein=="a":
+        aple.x=int(client_sok.recv(2).decode().strip())
+        aple.y=int(client_sok.recv(2).decode().strip())
     else:
         return False
     
@@ -396,12 +409,20 @@ taildat=[[True]]
 
 
 listen()
+if mo=="1":
+    player1=snake_head([[[0,255,0]]],10,10)
+    player1.edgeB=False
+else:
+    player1=snake_head([[[0,255,0]]],20,10)
+    player1.edgeB=False
 
-player1=snake_head([[[0,255,0]]],10,10)
-player1.edgeB=False
+if mo=="1":
+    player2=snake_remote([[[0,0,255]]],20,10)
+    player2.edgeB=False
+else:
+    player2=snake_remote([[[0,0,255]]],10,10)
+    player2.edgeB=False
 
-player2=snake_remote([[[0,0,255]]],20,10)
-player2.edgeB=False
 
 aple=aples(apledat,15,20)
 
@@ -438,7 +459,7 @@ while True:
     update()
     try:
         # Try to receive data
-        data = client_sok.recv(2).decode().strip()
+        data = client_sok.recv(1).decode().strip()
         print(data)
         if data:
             if select(player2,data):
@@ -448,8 +469,8 @@ while True:
 
     player1.upd_v_tail()
     player2.upd_v_tail()
-    aple.catch(player1)
-    aple.catch(player2)
+    aple.catch(player1,client_sok)
+    aple.catch(player2,client_sok)
     sleep(0.5)
 
 client_sok.send("e".encode())
