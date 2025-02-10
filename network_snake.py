@@ -1,4 +1,5 @@
 #snake
+from logging import exception
 from turtle import*
 from time import sleep
 import copy
@@ -6,7 +7,7 @@ from random import*
 import socket
 
 port=1151
-ip="127.0.0.1"
+ip="172.17.15.102"
 mo=None
 
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -283,14 +284,17 @@ class aples(sprite):
         
         if colision(self,snake):
             magame.points+=1
-            x=randrange(0,29)
-            y=randrange(0,29)
             if mo=="1":
+                x=randrange(0,29)
+                y=randrange(0,29)
                 client_sok.sendall("a".encode())
+                print("a")
                 client_sok.sendall(str(x).zfill(2).encode())  # Ensures 2-byte length
+                print(x)
                 client_sok.sendall(str(y).zfill(2).encode())
-            self.x=x
-            self.y=y
+                print(y)
+                self.x=x
+                self.y=y
             snake.add_tail()
             print(f"Points: {magame.points}")
 
@@ -438,42 +442,45 @@ print(renderpipe)
 print(player1.tail)
 
 client_sok.setblocking(False)
+try:
+    while True:
+        regrid() 
 
-while True:
-    regrid() 
+        
+        for obj in renderpipe:
+            obj.draw()
 
-    
-    for obj in renderpipe:
-        obj.draw()
+        if magame.check_game_over(player1):
+            break
 
-    if magame.check_game_over(player1):
-        break
+        if player1 not in renderpipe:
+            break
 
-    if player1 not in renderpipe:
-        break
+        if player1 not in renderpipe:
+            break
 
-    if player1 not in renderpipe:
-        break
+        updt()
+        update()
+        try:
+            # Try to receive data
+            data = client_sok.recv(1).decode().strip()
+            print(data)
+            if data:
+                if select(player2,data):
+                    break
+        except BlockingIOError:
+            pass
 
-    updt()
-    update()
-    try:
-        # Try to receive data
-        data = client_sok.recv(1).decode().strip()
-        print(data)
-        if data:
-            if select(player2,data):
-                break
-    except BlockingIOError:
-        pass
+        player1.upd_v_tail()
+        player2.upd_v_tail()
+        aple.catch(player1,client_sok)
+        aple.catch(player2,client_sok)
+        sleep(0.5)
+except exception as e:
+    pass
+    print(e)
 
-    player1.upd_v_tail()
-    player2.upd_v_tail()
-    aple.catch(player1,client_sok)
-    aple.catch(player2,client_sok)
-    sleep(0.5)
-
-client_sok.send("e".encode())
-sleep(1)
-client_sok.close()
-done()
+finally:
+    client_sok.send("e".encode())
+    sleep(1)
+    client_sok.close()
