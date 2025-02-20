@@ -332,9 +332,6 @@ onkey(head.dowf, "s")
 onkey(head.leff, "a")
 onkey(head.rigf, "d")
 
-print(renderpipe)
-print(head.tail)
-print(renderpipe[0].data)
 
 while True:
     regrid() 
