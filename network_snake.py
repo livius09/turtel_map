@@ -1,5 +1,4 @@
 #snake
-from curses.ascii import isalnum
 from logging import exception
 from turtle import*
 from time import sleep
@@ -289,6 +288,7 @@ class aples(sprite):
                 x=randrange(0,29)
                 y=randrange(0,29)
                 client_sok.sendall(f"a {x:02d} {y:02d}".encode())
+                print("sending:")
                 print("a")
                 print(x)
                 print(y)
@@ -400,10 +400,11 @@ def select(snake,ein:str):
         return True
     elif ein=="a":
         x=int(client_sok.recv(3).decode().strip())
-        print(x)
+        print("recived:")
+        print(f"x {x}")
         aple.x=x
         y=int(client_sok.recv(3).decode().strip())
-        print(y)
+        print(f"y{y}")
         aple.y=y
     else:
         return False
