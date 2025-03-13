@@ -397,6 +397,7 @@ def select(snake,ein:str):
     elif ein =="r":
         snake.rigf()
     elif ein =="e":
+        print("iam ending it")
         return True
     elif ein=="a":
         x=int(client_sok.recv(3).decode().strip())
@@ -404,7 +405,7 @@ def select(snake,ein:str):
         print(f"x {x}")
         aple.x=x
         y=int(client_sok.recv(3).decode().strip())
-        print(f"y{y}")
+        print(f"y {y}")
         aple.y=y
     else:
         return False
