@@ -8,10 +8,13 @@ class Node:
     outline :bool = False
     color:tuple = (0,0,0)
 
+    wants_A_tick:bool=False
+    A_state:int = 0
+
+
     dirty_callback = None
 
     onClick_func = None
-    onHover = lambda : 1+1 
 
     def __init__(self):
         self.mdirty()
@@ -64,6 +67,13 @@ class Node:
 
     def set_onclick(self, new_onclick):
         self.onClick_func = new_onclick
+
+    def onclick(self):
+        if self.onClick_func:
+            self.onClick_func()
+
+    def A_tick(self):
+        self.A_state+=1
 
 
     def render_outline(self):

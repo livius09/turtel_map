@@ -23,6 +23,7 @@ class app():
         #yeah
         try:
             while True:
+                self.tick_A()
                 self.render()
                 t.listen()
                 sleep(0.2)
@@ -39,6 +40,9 @@ class app():
                 node.render_self()
 
             self.cur_scene.mclean()
+
+        #needs to be here cause its between the reset and update
+        self.tick_A()
 
         t.update()
         t.hideturtle()
@@ -58,14 +62,28 @@ class app():
 
         t.penup()
 
+    def tick_A(self):
+        if self.cur_scene:
+            for node in self.cur_scene.get_Animation():
+                if node.wants_A_tick:
+                    node.A_tick()
+                    self.cur_scene.mdirty()
+                else:
+                    node.A_state=0
+                    self.cur_scene.remove_Animation(node)
+
+
+
+
     #figures out wich element was clicked on
     def onclick(self, x:float,y:float):
-        if self.cur_scene is not None:
+        if self.cur_scene:
             for node in self.cur_scene.get_Nodes():
                 if x > node.x and x < (node.x + node.width):
                     if y > node.y and y < (node.y + node.height):
-                        if node.onClick_func:
-                            node.onClick_func()
+                        node.onclick()
+                        if node.wants_A_tick:
+                            self.cur_scene.add_Animation(node)
 
 
 

@@ -1,6 +1,7 @@
 from main import app
 from scene import scene
 from lable import lable
+from Button import Button
 
 myapp = app()
 
@@ -23,6 +24,11 @@ seclb.onClick_func = lambda : seclb.set_x(seclb.x+5)
 
 frontscene.add_node(seclb)
 
+mybtn = Button("ding")
+mybtn.set_xy(20,60)
+mybtn.onClick_func = lambda : print("Dong")
+
+frontscene.add_node(mybtn)
 
 myapp.set_scene(frontscene)
 

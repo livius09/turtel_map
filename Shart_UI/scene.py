@@ -2,7 +2,8 @@ import turtle as t
 from Node import Node
 
 class scene():
-    __Nodes:list[Node]=[]
+    __Nodes:list[Node] = []
+    __Animation:list[Node] = []
     
     def __init__(self) -> None:
         self.dirty:bool = True
@@ -22,3 +23,12 @@ class scene():
 
     def get_Nodes(self)->list[Node]:
         return self.__Nodes
+
+    def add_Animation(self,newNode:Node):
+        self.__Animation.append(newNode)
+
+    def remove_Animation(self,oldNode:Node):
+        self.__Animation.remove(oldNode)
+
+    def get_Animation(self)->list[Node]:
+        return self.__Animation
