@@ -81,7 +81,7 @@ class app():
             for node in self.cur_scene.get_Nodes():
                 if x > node.x and x < (node.x + node.width):
                     if y > node.y and y < (node.y + node.height):
-                        node.onclick()
+                        node.onclick(x,y)
                         if node.wants_A_tick:
                             self.cur_scene.add_Animation(node)
 

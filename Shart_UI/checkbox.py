@@ -12,8 +12,8 @@ class checkbox(Node):
         self.width=10
         self.height=10
 
-    def onclick(self):
-        super().onclick()
+    def onclick(self,x,y):
+        super().onclick(x,y)
         self.is_ticked= not self.is_ticked
         self.mdirty()
 

@@ -68,7 +68,7 @@ class Node:
     def set_onclick(self, new_onclick):
         self.onClick_func = new_onclick
 
-    def onclick(self):
+    def onclick(self, x:float, y:float):
         if self.onClick_func:
             self.onClick_func()
 
