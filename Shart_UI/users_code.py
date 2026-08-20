@@ -3,6 +3,7 @@ from scene import scene
 from lable import lable
 from Button import Button
 from checkbox import checkbox
+from Radio_button import Radio_Button
 
 myapp = app()
 
@@ -35,6 +36,15 @@ mycheck = checkbox()
 mycheck.set_xy(20,80)
 
 frontscene.add_node(mycheck)
+
+
+myrad = Radio_Button()
+myrad.outline = True
+myrad.set_xy(20, 100)
+myrad.add_option("opt")
+myrad.add_option("apat")
+
+frontscene.add_node(myrad)
 
 
 

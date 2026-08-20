@@ -6,8 +6,8 @@ class Button(lable):
         super().__init__(txt)
         self.outline = True
 
-    def onclick(self):
-        super().onclick()
+    def onclick(self,x,y):
+        super().onclick(x,y)
         self.wants_A_tick = True
 
     def A_tick(self):
