@@ -43,6 +43,7 @@ myrad.outline = True
 myrad.set_xy(20, 100)
 myrad.add_option("opt")
 myrad.add_option("apat")
+myrad.add_option("ota")
 
 frontscene.add_node(myrad)
 

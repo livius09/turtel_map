@@ -51,6 +51,16 @@ class Radio_Button(Node):
 
     def onclick(self, x: float, y: float):
         super().onclick(x, y)
-        y_relative = y-self.y
 
+        y_relative = y-self.y
+        num = int(y_relative/12)
+
+        if num < len(self.options):
+            self.selected = self.options[num]
+            self.mdirty()
+        elif num == len(self.options): #to work whitch some stupid stuff that hapens when you click at the upper most thing
+            self.selected = self.options[-1]
+            self.mdirty()
+
+        
         #idk dawg
