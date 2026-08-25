@@ -4,6 +4,9 @@ from Node import Node
 class scene():
     __Nodes:list[Node] = []
     __Animation:list[Node] = []
+
+    focused : Node|None = None
+    focus_pos = 0
     
     def __init__(self) -> None:
         self.dirty:bool = True
@@ -20,6 +23,7 @@ class scene():
 
     def remove_node(self,oldNode:Node):
         self.__Nodes.remove(oldNode)
+        self.mdirty()
 
     def get_Nodes(self)->list[Node]:
         return self.__Nodes

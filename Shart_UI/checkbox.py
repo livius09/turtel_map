@@ -11,6 +11,7 @@ class checkbox(Node):
         self.outline=True
         self.width=10
         self.height=10
+        self.can_be_focused = True
 
     def onclick(self,x,y):
         super().onclick(x,y)

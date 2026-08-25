@@ -5,10 +5,15 @@ from Node import Node
 
 class app():
     cur_scene:scene|None = None
+
+    
     def __init__(self) -> None:
         t.tracer(0)
         t.hideturtle()
         t.onscreenclick(self.onclick)
+        t.onkeypress(self.on_tab, 'Tab')
+        t.onkeypress(self.on_enter, "Return")
+        t.colormode(255)
         
 
 
@@ -85,6 +90,29 @@ class app():
                         if node.wants_A_tick:
                             self.cur_scene.add_Animation(node)
 
+    def on_tab(self):
+        if self.cur_scene:
+            while(len(self.cur_scene.get_Nodes()) > (self.cur_scene.focus_pos % len(self.cur_scene.get_Nodes()))):
+                tmp_node = self.cur_scene.get_Nodes()[(self.cur_scene.focus_pos % len(self.cur_scene.get_Nodes()))]
 
+                if (tmp_node.can_be_focused):
+                    if self.cur_scene.focused:
+                        self.cur_scene.focused.has_focus = False
+                
+                    tmp_node.has_focus = True
+                    self.cur_scene.focused = tmp_node
 
+                    self.cur_scene.mdirty()
 
+                    self.cur_scene.focus_pos+=1
+                    break
+
+                self.cur_scene.focus_pos+=1
+
+    def on_enter(self):
+        if self.cur_scene:            
+            if self.cur_scene.focused:
+                tmp_nod = self.cur_scene.focused
+                tmp_nod.onclick(tmp_nod.x, tmp_nod.y)
+                if tmp_nod.wants_A_tick:
+                    self.cur_scene.add_Animation(tmp_nod)

@@ -11,9 +11,10 @@ class Node:
     wants_A_tick:bool=False
     A_state:int = 0
 
+    has_focus:bool = False
+    can_be_focused:bool = False
 
     dirty_callback = None
-
     onClick_func = None
 
     def __init__(self):
@@ -61,20 +62,25 @@ class Node:
         self.mdirty()
         self.outline = state
 
+    def set_onclick(self, new_onclick):
+        self.onClick_func = new_onclick
+    
+    def onclick(self, x:float, y:float):
+        if self.onClick_func:
+            self.onClick_func()
+    
+
+
+    def A_tick(self):
+            self.A_state+=1
+    
+
     def render_self(self):
         if self.outline:
             self.render_outline()
 
-    def set_onclick(self, new_onclick):
-        self.onClick_func = new_onclick
-
-    def onclick(self, x:float, y:float):
-        if self.onClick_func:
-            self.onClick_func()
-
-    def A_tick(self):
-        self.A_state+=1
-
+        if self.has_focus:
+            self.render_focus()
 
     def render_outline(self):
         t.teleport(self.x,self.y)
@@ -89,3 +95,21 @@ class Node:
 
         t.penup()
 
+    def render_focus(self):
+        t.color(153, 5, 5)
+        self.render_ofset(2)
+        t.color(0,0,0)
+
+    def render_ofset(self,ofs:int):
+        t.teleport(self.x-ofs,self.y-ofs)
+
+        t.setheading(0)
+        t.pendown()
+
+        for i in range(2):
+            t.fd(self.width+2*ofs)
+            t.lt(90)
+            t.fd(self.height+2*ofs)
+            t.lt(90)
+
+        t.penup()

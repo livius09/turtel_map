@@ -8,9 +8,11 @@ from Radio_button import Radio_Button
 myapp = app()
 
 frontscene = scene()
+
+
 mylb = lable("helo world")
 mylb.set_xy(20,20)
-mylb.set_outline(True)
+
 
 mylb.onClick_func = lambda : print("Hello world")
 
@@ -20,7 +22,6 @@ frontscene.add_node(mylb)
 
 seclb = lable("move")
 seclb.set_xy(20,40)
-seclb.set_outline(True)
 
 seclb.onClick_func = lambda : seclb.set_x(seclb.x+5)
 
