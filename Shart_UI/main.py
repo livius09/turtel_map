@@ -11,6 +11,7 @@ class app():
         t.tracer(0)
         t.hideturtle()
         t.onscreenclick(self.onclick)
+        self.bind_leters()
         t.onkeypress(self.on_tab, 'Tab')
         t.onkeypress(self.on_enter, "Return")
         t.colormode(255)
@@ -116,3 +117,18 @@ class app():
                 tmp_nod.onclick(tmp_nod.x, tmp_nod.y)
                 if tmp_nod.wants_A_tick:
                     self.cur_scene.add_Animation(tmp_nod)
+
+    def bind_leters(self):
+        keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',"Escape"]
+        for key in keys:
+            t.onkeypress(lambda k=key:self.handleKey(k),key)
+
+    def handleKey(self,key:str):
+        if key=="Escape":
+            t.bye()
+
+        if self.cur_scene:
+            if self.cur_scene.focused:
+                self.cur_scene.focused.onkey(key)
+
+

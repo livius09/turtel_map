@@ -69,10 +69,12 @@ class Node:
         if self.onClick_func:
             self.onClick_func()
     
+    def onkey(self, key:str):
+        pass
 
 
     def A_tick(self):
-            self.A_state+=1
+        self.A_state+=1
     
 
     def render_self(self):
