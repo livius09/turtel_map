@@ -39,6 +39,7 @@ class app():
 
 
     def render(self):
+        t.hideturtle()
         if self.cur_scene and self.cur_scene.dirty:
             t.reset()
             self.render_outline()
@@ -49,6 +50,7 @@ class app():
 
         #needs to be here cause its between the reset and update
         self.tick_A()
+        t.hideturtle()
 
         t.update()
         t.hideturtle()
@@ -67,6 +69,7 @@ class app():
             t.lt(90)
 
         t.penup()
+
 
     def tick_A(self):
         if self.cur_scene:
@@ -90,6 +93,10 @@ class app():
                         node.onclick(x,y)
                         if node.wants_A_tick:
                             self.cur_scene.add_Animation(node)
+
+                        if node.wants_focus:
+                            self.cur_scene.focused = node
+                            node.has_focus = True
 
     def on_tab(self):
         if self.cur_scene:
@@ -119,7 +126,7 @@ class app():
                     self.cur_scene.add_Animation(tmp_nod)
 
     def bind_leters(self):
-        keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',"Escape"]
+        keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',"Escape","Left","Right","BackSpace"]
         for key in keys:
             t.onkeypress(lambda k=key:self.handleKey(k),key)
 

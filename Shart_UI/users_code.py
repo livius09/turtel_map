@@ -4,6 +4,7 @@ from lable import lable
 from Button import Button
 from checkbox import checkbox
 from Radio_button import Radio_Button
+from Textfield import Textfield
 
 myapp = app()
 
@@ -48,6 +49,12 @@ myrad.add_option("ota")
 
 frontscene.add_node(myrad)
 
+
+
+mytf = Textfield()
+mytf.set_xy(20,160)
+
+frontscene.add_node(mytf)
 
 
 

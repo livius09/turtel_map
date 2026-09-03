@@ -13,6 +13,7 @@ class Node:
 
     has_focus:bool = False
     can_be_focused:bool = False
+    wants_focus:bool = False
 
     dirty_callback = None
     onClick_func = None
